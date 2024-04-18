@@ -1,42 +1,33 @@
 import tkinter as tk
 
 
-class calculate:
-    def add(a, b):
-        return a+b
-    
-    def subtract(a, b):
-        return a-b
-    
-    def multiply(a, b):
-        return a*b
-    
-    def divide(a, b):
-        return a/b
-    
-    def mod(a, b):
-        return a%b
-    
-    def calculate(expression):
-        parts = expression.split()
-        a, operator, b = parts
+# Write a way to replace the values in the string after we do the calculation
+class calculate:   
+    def calculate(string):
+        while '(' in string:
+            pos = string.rfind('(')
+            endPos = string.find(')')
 
-        a = int(a)
-        b = int(b)
+            equation = string[pos+1:endPos]
+            parts = equation.split()
+            a, operator, b = parts
 
-        if operator == "+":
-            return calculate.add(a,b)
-        elif operator == "-":
-            return calculate.subtract(a,b)
-        elif operator == "*":
-            return calculate.multiply(a,b)
-        elif operator == "÷":
-            return calculate.divide(a,b)
-        elif operator == "%":
-            return calculate.mod(a,b)
-        else:
-            return "Error"
-        
+            a = int(a)
+            b = int(b)
+
+            if operator == "+":
+                return a + b
+            elif operator == "-":
+                return a - b
+            elif operator == "*":
+                return a * b
+            elif operator == "÷":
+                return a / b
+            elif operator == "%":
+                return a % b
+            else:
+                return "Error"
+            
 root = tk.Tk()
 root.title("Calculator")
 root.geometry("400x300")
@@ -45,30 +36,34 @@ root.geometry("400x300")
 def solve():
     equation = str(getText())
     clear()
-    insertText(calculate.calculate(equation))
+    if equation == "Error":
+        clear()
+        insertText("ERROR")
+    else:
+        insertText(calculate.calculate(equation))
 
 
 button_frame = tk.Frame(root)
 button_frame.pack(expand=True)
 
 # Buttons
-button1 = tk.Button(button_frame, text=" 1 ", command = lambda: insertText("1 "))
-button2 = tk.Button(button_frame, text=" 2 ", command = lambda: insertText("2 "))
-button3 = tk.Button(button_frame, text=" 3 ", command = lambda: insertText("3 "))
-button4 = tk.Button(button_frame, text=" 4 ", command = lambda: insertText("4 "))
-button5 = tk.Button(button_frame, text=" 5 ", command = lambda: insertText("5 "))
-button6 = tk.Button(button_frame, text=" 6 ", command = lambda: insertText("6 "))
-button7 = tk.Button(button_frame, text=" 7 ", command = lambda: insertText("7 "))
-button8 = tk.Button(button_frame, text=" 8 ", command = lambda: insertText("8 "))
-button9 = tk.Button(button_frame, text=" 9 ", command = lambda: insertText("9 "))
-button0 = tk.Button(button_frame, text=" 0 ", command = lambda: insertText("0 "))
-buttonAdd = tk.Button(button_frame, text=" + ", command = lambda: insertText("+ "))
-buttonSubtract = tk.Button(button_frame, text=" - ", command = lambda: insertText("- "))
-buttonMultiply = tk.Button(button_frame, text=" * ", command = lambda: insertText("* "))
-buttonDivide = tk.Button(button_frame, text=" / ", command = lambda: insertText("/ "))
-buttonMod = tk.Button(button_frame, text=" % ", command = lambda: insertText("% "))
-buttonPar1 = tk.Button(button_frame, text=" ( ", command = lambda: insertText("( "))
-buttonPar2 = tk.Button(button_frame, text=" ) ", command = lambda: insertText(") "))
+button1 = tk.Button(button_frame, text=" 1 ", command = lambda: insertText("1"))
+button2 = tk.Button(button_frame, text=" 2 ", command = lambda: insertText("2"))
+button3 = tk.Button(button_frame, text=" 3 ", command = lambda: insertText("3"))
+button4 = tk.Button(button_frame, text=" 4 ", command = lambda: insertText("4"))
+button5 = tk.Button(button_frame, text=" 5 ", command = lambda: insertText("5"))
+button6 = tk.Button(button_frame, text=" 6 ", command = lambda: insertText("6"))
+button7 = tk.Button(button_frame, text=" 7 ", command = lambda: insertText("7"))
+button8 = tk.Button(button_frame, text=" 8 ", command = lambda: insertText("8"))
+button9 = tk.Button(button_frame, text=" 9 ", command = lambda: insertText("9"))
+button0 = tk.Button(button_frame, text=" 0 ", command = lambda: insertText("0"))
+buttonAdd = tk.Button(button_frame, text=" + ", command = lambda: insertText(" + "))
+buttonSubtract = tk.Button(button_frame, text=" - ", command = lambda: insertText(" - "))
+buttonMultiply = tk.Button(button_frame, text=" * ", command = lambda: insertText(" * "))
+buttonDivide = tk.Button(button_frame, text=" / ", command = lambda: insertText(" / "))
+buttonMod = tk.Button(button_frame, text=" % ", command = lambda: insertText(" % "))
+buttonPar1 = tk.Button(button_frame, text=" ( ", command = lambda: insertText(" ( "))
+buttonPar2 = tk.Button(button_frame, text=" ) ", command = lambda: insertText(" ) "))
 solveButton = tk.Button(button_frame, text=" = ", command = lambda: solve())
 textBox = tk.Text(button_frame, height=2, width=16)
 backspaceButton = tk.Button(button_frame, text=" ⌫ ", command = lambda: backspace())
@@ -97,7 +92,14 @@ clearButton.grid(row=2, column=4, columnspan=1)
 
 def getText():
     # Gets the info from the textbox
-    current_text = textBox.get("1.0", "end-1c")
+    current_text = "( " + textBox.get("1.0", "end-1c") + " )"
+    validOptions = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", " ", "+", "-", "*", "/", "%", "(", ")"}
+    assert current_index in validOptions
+    try:
+        for i in range (len(current_text)):
+            current_index = current_text[i]
+    except AssertionError:
+        return "Error"
     # print(current_text)
     return current_text
 
