@@ -28,6 +28,19 @@ class calculate:
             else:
                 return "Error"
             
+# def solve():
+
+# string = "1 + (3+5)"
+# while "(" in string loop
+#   result = calculate(string)
+#   for i range string.length() loop
+#     if string[i] = "("
+#       start = i 
+#     if string = ")" 
+#       end = i
+#       break
+#     //replace between these indexes 
+            
 root = tk.Tk()
 root.title("Calculator")
 root.geometry("400x300")
@@ -40,7 +53,14 @@ def solve():
         clear()
         insertText("ERROR")
     else:
-        insertText(calculate.calculate(equation))
+        result = calculate(equation)
+        while True:
+            start = equation.rfind('(')
+            end = equation.find(')')
+            insertText(calculate.calculate(equation))
+            equation = equation[:start ]+ str(result)+ equation[end:] 
+
+
 
 
 button_frame = tk.Frame(root)
@@ -62,8 +82,8 @@ buttonSubtract = tk.Button(button_frame, text=" - ", command = lambda: insertTex
 buttonMultiply = tk.Button(button_frame, text=" * ", command = lambda: insertText(" * "))
 buttonDivide = tk.Button(button_frame, text=" / ", command = lambda: insertText(" / "))
 buttonMod = tk.Button(button_frame, text=" % ", command = lambda: insertText(" % "))
-buttonPar1 = tk.Button(button_frame, text=" ( ", command = lambda: insertText(" ( "))
-buttonPar2 = tk.Button(button_frame, text=" ) ", command = lambda: insertText(" ) "))
+buttonPar1 = tk.Button(button_frame, text=" ( ", command = lambda: insertText("( "))
+buttonPar2 = tk.Button(button_frame, text=" ) ", command = lambda: insertText(" )"))
 solveButton = tk.Button(button_frame, text=" = ", command = lambda: solve())
 textBox = tk.Text(button_frame, height=2, width=16)
 backspaceButton = tk.Button(button_frame, text=" ⌫ ", command = lambda: backspace())
@@ -94,6 +114,7 @@ def getText():
     # Gets the info from the textbox
     current_text = "( " + textBox.get("1.0", "end-1c") + " )"
     validOptions = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", " ", "+", "-", "*", "/", "%", "(", ")"}
+    current_index = "1"
     assert current_index in validOptions
     try:
         for i in range (len(current_text)):
