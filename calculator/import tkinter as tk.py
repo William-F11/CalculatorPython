@@ -11,9 +11,12 @@ class calculate:
             equation = string[pos+1:endPos]
             parts = equation.split()
             a, operator, b = parts
-
             a = int(a)
             b = int(b)
+            print(parts)
+            print(a)
+            print(operator)
+            print(b)
 
             if operator == "+":
                 return a + b
@@ -53,12 +56,11 @@ def solve():
         clear()
         insertText("ERROR")
     else:
-        result = calculate(equation)
-        while True:
-            start = equation.rfind('(')
-            end = equation.find(')')
-            insertText(calculate.calculate(equation))
-            equation = equation[:start ]+ str(result)+ equation[end:] 
+        result = calculate.calculate(equation)
+        start = equation.rfind('(')
+        end = equation.find(')')
+        insertText(result)
+        equation = equation[:start ]+ str(result)+ equation[end:] 
 
 
 
